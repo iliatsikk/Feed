@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Kingfisher
-import Combine
+import DesignSystem
 
 struct FullscreenImageView: View {
   @Binding var isPresented: Bool
@@ -27,9 +27,8 @@ struct FullscreenImageView: View {
         Color.black.ignoresSafeArea()
 
         KFImage(url)
-          .setProcessor(DownsamplingImageProcessor(size: .init(width: 165.0.scaled, height: 165.0.scaled)))
+          .setProcessor(DownsamplingImageProcessor(size: .init(width: Constants.Screen.width, height: Constants.Screen.height)))
           .cacheOriginalImage()
-          .cacheMemoryOnly()
           .resizable()
           .scaledToFill()
           .frame(
@@ -38,15 +37,20 @@ struct FullscreenImageView: View {
           )
           .clipped()
 
-        Button {
-          isPresented = false
-        } label: {
-          Image(systemName: "xmark.circle.fill")
-            .font(.system(size: 32, weight: .bold))
-            .foregroundColor(.white)
-            .padding()
+        HStack(spacing: .zero) {
+          Color.clear
+            .contentShape(.rect)
+            .onTapGesture {
+              showPrevious()
+            }
 
+          Color.clear
+            .contentShape(.rect)
+            .onTapGesture {
+              showNext()
+            }
         }
+        .zIndex(1)
       }
       .offset(x: .zero, y: dragOffset.height)
       .gesture(
