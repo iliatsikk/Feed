@@ -31,7 +31,7 @@ struct FullscreenImageView: View {
   var body: some View {
     GeometryReader { proxy in
       ZStack(alignment: .topLeading) {
-        Color.gray.ignoresSafeArea()
+        Color.System.darkBackground.ignoresSafeArea()
 
         KFImage(url)
           .setProcessor(DownsamplingImageProcessor(size: .init(width: Constants.Screen.width, height: Constants.Screen.height)))

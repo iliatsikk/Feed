@@ -13,5 +13,7 @@ public extension Color {
     private static let namespace = "Colors"
 
     public static let background: Color = Color("\(namespace)/background", bundle: .module)
+
+    public static let darkBackground: Color = Color("\(namespace)/dark-background", bundle: .module)
   }
 }
