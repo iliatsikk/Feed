@@ -35,19 +35,3 @@ struct ListingItemView: View {
       .animation(.easeInOut(duration: 0.25), value: isSeen)
   }
 }
-
-struct IconGradientView: View {
-  private static let gradientColors = [
-    Color(red: 0.49, green: 0.11, blue: 0.83),  // purple
-    Color(red: 0.90, green: 0.12, blue: 0.31),  // red
-    Color(red: 0.97, green: 0.50, blue: 0.08)   // orange
-  ]
-
-  var body: some View {
-    LinearGradient(
-      gradient: Gradient(colors: Self.gradientColors),
-      startPoint: .top,
-      endPoint: .bottom
-    )
-  }
-}
