@@ -19,8 +19,15 @@ final class ListingViewState: NSObject, Sendable {
   }
 
   var state: ViewState
+  var selectedURL: URL?
 
   init(state: ViewState) {
     self.state = state
+  }
+
+  // MARK: - Setters
+
+  func setSelectedURL(_ url: URL?) {
+    selectedURL = url
   }
 }
