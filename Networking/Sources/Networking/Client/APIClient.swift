@@ -16,7 +16,6 @@ public final class APIClient: @unchecked Sendable {
   private let session: Session
 
   public init() {
-    let interceptor = APIRequestInterceptor()
     let logger = NetworkLogger()
 
     let configuration = URLSessionConfiguration.default
@@ -25,7 +24,6 @@ public final class APIClient: @unchecked Sendable {
 
     session = Session(
       configuration: configuration,
-      interceptor: interceptor,
       eventMonitors: [logger]
     )
   }

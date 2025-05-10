@@ -11,6 +11,7 @@ import Kingfisher
 
 struct ListingItemView: View {
   var url: URL?
+  var isSeen: Bool
 
   var body: some View {
     KFImage(url)
@@ -22,13 +23,20 @@ struct ListingItemView: View {
       .clipShape(.circle)
       .frame(width: 160.0.scaled, height: 160.0.scaled)
       .padding(5.0.scaled)
-      .background(IconGradientView())
+      .background(
+        IconGradientView()
+          .overlay {
+            if isSeen {
+              Rectangle().fill(Color.gray)
+            }
+          }
+      )
       .clipShape(.circle)
+      .animation(.easeInOut(duration: 0.25), value: isSeen)
   }
 }
 
 struct IconGradientView: View {
-  // The exact colors we used in the app icon
   private static let gradientColors = [
     Color(red: 0.49, green: 0.11, blue: 0.83),  // purple
     Color(red: 0.90, green: 0.12, blue: 0.31),  // red
@@ -41,6 +49,5 @@ struct IconGradientView: View {
       startPoint: .top,
       endPoint: .bottom
     )
-//    .ignoresSafeArea() // fills its container
   }
 }

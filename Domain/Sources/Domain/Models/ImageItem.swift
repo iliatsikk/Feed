@@ -19,6 +19,8 @@ public struct ImageItem: Codable {
     return URL(string: downloadURL)
   }
 
+  public var seen: Bool = false
+
   enum CodingKeys: String, CodingKey {
     case id, width, height, author
     case urlString = "url"

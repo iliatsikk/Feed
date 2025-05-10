@@ -20,14 +20,27 @@ final class ListingViewState: NSObject, Sendable {
 
   var state: ViewState
   var selectedURL: URL?
+  var images: [ListingConfiguration.DataItem]
 
   init(state: ViewState) {
+    self.images = []
     self.state = state
   }
 
   // MARK: - Setters
 
-  func setSelectedURL(_ url: URL?) {
+  func setSelectedURL(_ url: URL?, id: String) {
     selectedURL = url
+    setIsSeen(true, id: id)
+  }
+
+  func setIsSeen(_ isSeen: Bool, id: String) {
+    images = images.map {
+      guard $0.id == id else { return $0 }
+
+      var item = $0
+      item.seen = true
+      return item
+    }
   }
 }

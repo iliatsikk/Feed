@@ -11,7 +11,7 @@ import SwiftUI
 struct FeedApp: App {
   var body: some Scene {
     WindowGroup {
-      ListingView(viewModel: .init())
+      ListingView(config: .init())
     }
   }
 }

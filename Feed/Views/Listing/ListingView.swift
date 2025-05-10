@@ -10,10 +10,8 @@ import SwiftUI
 import DesignSystem
 import Kingfisher
 
-import SwiftUI
-
 struct ListingView: View {
-  @State var viewModel: ListingConfiguration
+  @State var config: ListingConfiguration
 
   @State private var isShowingFullScreen = false
 
@@ -26,14 +24,14 @@ struct ListingView: View {
     ZStack {
       ScrollView {
         LazyVGrid(columns: columns, spacing: 16.0.scaled) {
-          ForEach(viewModel.images, id: \.self) { image in
+          ForEach(config.viewState.images, id: \.self) { image in
             Button {
-              viewModel.viewState.setSelectedURL(image.url)
+              config.viewState.setSelectedURL(image.url, id: image.id)
               withAnimation {
                 isShowingFullScreen = true
               }
             } label: {
-              ListingItemView(url: image.url)
+              ListingItemView(url: image.url, isSeen: image.seen)
             }
             .buttonStyle(.plain)
           }
@@ -41,42 +39,20 @@ struct ListingView: View {
         .padding(.horizontal, 16.0.scaled)
         .padding(.vertical, 50.0.scaled)
       }
-      .task { @MainActor in await viewModel.getImages() }
-
-      if isShowingFullScreen, let url = viewModel.viewState.selectedURL {
-        FullscreenImageView(isPresented: $isShowingFullScreen, url: url)
-          .transition(.opacity)
-          .animation(.easeInOut(duration: 0.25), value: isShowingFullScreen)
-          .zIndex(1)
+      .task { @MainActor in
+        await config.getImages()
       }
-    }
-    .animation(.easeInOut, value: isShowingFullScreen)
-  }
-}
 
-struct FullscreenImageView: View {
-  @Binding var isPresented: Bool
-  let url: URL
-
-  var body: some View {
-    ZStack(alignment: .topTrailing) {
-      Color.black.ignoresSafeArea()
-
-      KFImage(url)
-        .resizable()
-        .scaledToFill()
-        .frame(
-          minWidth: .zero, maxWidth: .infinity,
-          minHeight: .zero, maxHeight: .infinity
+      if isShowingFullScreen, let url = config.viewState.selectedURL {
+        FullscreenImageView(
+          isPresented: $isShowingFullScreen,
+          showNext: config.showNextImage,
+          showPrevious: config.showPreviousImage,
+          url: url
         )
-
-      Button(action: {
-        isPresented = false
-      }) {
-        Image(systemName: "xmark.circle.fill")
-          .font(.system(size: 32, weight: .bold))
-          .foregroundColor(.white)
-          .padding()
+        .transition(.opacity)
+        .animation(.easeInOut(duration: 0.25), value: isShowingFullScreen)
+        .zIndex(1)
       }
     }
   }
