@@ -41,13 +41,17 @@ struct FullscreenImageView: View {
           Color.clear
             .contentShape(.rect)
             .onTapGesture {
-              showPrevious()
+              withAnimation(.linear(duration: 0.25)) {
+                showPrevious()
+              }
             }
 
           Color.clear
             .contentShape(.rect)
             .onTapGesture {
-              showNext()
+              withAnimation(.linear(duration: 0.25)) {
+                showNext()
+              }
             }
         }
         .zIndex(1)
@@ -71,16 +75,15 @@ struct FullscreenImageView: View {
               isInitial = true
             }
 
-//            if value.translation.height < 400.0.scaled {
-//              withAnimation(.linear(duration: 0.25)) {
-//                isPresented = false
-//              }
-//            } else if value.translation.width < -50 {
-//              withAnimation(.easeInOut) {
-//                showNext() }
-//            } else if value.translation.width > 50 {
-//              withAnimation(.easeInOut) { showPrevious() }
-//            }
+            if value.translation.width < -50 {
+              withAnimation(.linear(duration: 0.25)) {
+                showNext()
+              }
+            } else if value.translation.width > 50 {
+              withAnimation(.linear(duration: 0.25)) {
+                showPrevious()
+              }
+            }
           }
       )
       .transition(.move(edge: .bottom))
