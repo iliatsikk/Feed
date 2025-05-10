@@ -1,5 +1,4 @@
 # Feed
-# feed — image gallery ios app
 
 [![Swift Version](https://img.shields.io/badge/Swift-6%2B-orange.svg)](https://swift.org)  
 [![Platform](https://img.shields.io/badge/Platform-iOS%2017.0%2B-blue.svg)](https://developer.apple.com/ios)
