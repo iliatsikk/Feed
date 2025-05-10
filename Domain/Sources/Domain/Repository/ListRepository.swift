@@ -9,7 +9,7 @@ import Foundation
 import Foundation
 import Networking
 
-public protocol ListRepositoring {
+public protocol ListRepositoring: Sendable {
   func getListOfImages(page: Int, perPage: Int) async throws -> [ImageItem]
 }
 
