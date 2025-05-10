@@ -24,7 +24,7 @@ final class ListingViewState: NSObject, Sendable {
   var paginationIsLoading: Bool = false
 
   var state: ViewState
-  var selectedURL: URL?
+  var selectedItem: ListingConfiguration.DataItem?
   var images: [ListingConfiguration.DataItem]
 
   init(state: ViewState) {
@@ -34,8 +34,8 @@ final class ListingViewState: NSObject, Sendable {
 
   // MARK: - Setters
 
-  func setSelectedURL(_ url: URL?, id: String) {
-    selectedURL = url
+  func setSelectedItem(_ item: ListingConfiguration.DataItem?, id: String) {
+    selectedItem = item
     setIsSeen(true, id: id)
   }
 

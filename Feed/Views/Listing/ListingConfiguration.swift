@@ -81,7 +81,7 @@ final class ListingConfiguration: NSObject, Sendable {
 
   /// Show the next image in the list
   func showNextImage() {
-    guard let current = viewState.selectedURL else {
+    guard let current = viewState.selectedItem?.url else {
       return
     }
 
@@ -91,12 +91,12 @@ final class ListingConfiguration: NSObject, Sendable {
 
     let image = viewState.images[index + 1]
 
-    viewState.setSelectedURL(image.url, id: image.id)
+    viewState.setSelectedItem(image, id: image.id)
   }
 
   /// Show the previous image in the list
   func showPreviousImage() {
-    guard let current = viewState.selectedURL else {
+    guard let current = viewState.selectedItem?.url else {
       return
     }
 
@@ -106,6 +106,6 @@ final class ListingConfiguration: NSObject, Sendable {
 
     let image = viewState.images[index - 1]
 
-    viewState.setSelectedURL(image.url, id: image.id)
+    viewState.setSelectedItem(image, id: image.id)
   }
 }

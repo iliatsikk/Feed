@@ -14,7 +14,10 @@ struct FullscreenImageView: View {
 
   let showNext: () -> Void
   let showPrevious: () -> Void
-  let url: URL
+  let url: URL?
+
+  let profileURL: URL?
+  let profileName: String?
 
   @GestureState private var dragOffset: CGSize = .zero
 
@@ -23,7 +26,7 @@ struct FullscreenImageView: View {
 
   var body: some View {
     GeometryReader { proxy in
-      ZStack(alignment: .topTrailing) {
+      ZStack(alignment: .topLeading) {
         Color.black.ignoresSafeArea()
 
         KFImage(url)
@@ -36,6 +39,31 @@ struct FullscreenImageView: View {
             maxHeight: proxy.size.height
           )
           .clipped()
+
+        HStack(spacing: 16.0.scaled) {
+          if let profileURL {
+            KFImage(profileURL)
+              .setProcessor(DownsamplingImageProcessor(size: .init(width: 200.0.scaled, height: 200.0.scaled)))
+              .placeholder {
+                ProgressView()
+              }
+              .resizable()
+              .scaledToFill()
+              .clipShape(.circle)
+              .frame(width: 34.0.scaled, height: 34.0.scaled)
+              .padding(2.0.scaled)
+              .background(Color.secondary)
+              .clipShape(.circle)
+          }
+
+          if let profileName {
+            Text(profileName)
+              .font(.system(size: 12))
+              .foregroundStyle(.white)
+          }
+        }
+        .padding(.top, 16.0.scaled)
+        .padding(.leading, 16.0.scaled)
 
         HStack(spacing: .zero) {
           Color.clear

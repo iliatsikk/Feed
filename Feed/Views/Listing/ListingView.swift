@@ -29,7 +29,7 @@ struct ListingView: View {
             id: \.element.id
           ) { index, image in
             Button {
-              config.viewState.setSelectedURL(image.url, id: image.id)
+              config.viewState.setSelectedItem(image, id: image.id)
               withAnimation {
                 isShowingFullScreen = true
               }
@@ -50,12 +50,14 @@ struct ListingView: View {
         await config.loadMoreImages()
       }
 
-      if isShowingFullScreen, let url = config.viewState.selectedURL {
+      if isShowingFullScreen, let item = config.viewState.selectedItem {
         FullscreenImageView(
           isPresented: $isShowingFullScreen,
           showNext: config.showNextImage,
           showPrevious: config.showPreviousImage,
-          url: url
+          url: item.url,
+          profileURL: item.user?.profileURL,
+          profileName: item.user?.name
         )
         .transition(.opacity)
         .animation(.easeInOut(duration: 0.25), value: isShowingFullScreen)
