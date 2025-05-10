@@ -34,7 +34,7 @@ struct ListingView: View {
                 isShowingFullScreen = true
               }
             } label: {
-              ListingItemView(url: image.url, isSeen: image.seen)
+              ListingItemView(url: image.url, isSeen: image.seen, userProfileImage: image.user?.profileURL)
                 .id(image.id)
                 .task { @MainActor in
                   await config.requestMoreItemsIfNeeded(index: index)

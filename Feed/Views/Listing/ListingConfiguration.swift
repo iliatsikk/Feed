@@ -16,14 +16,17 @@ final class ListingConfiguration: NSObject, Sendable {
 
   var viewState: ListingViewState
 
-  private let repository: ListRepositoring
+  private let listRepository: ListRepositoring
+  private let userRepository: UserRepositoring
+
   private let apiClient = APIClient() // TODO: Create DI
 
   // MARK: - Lifecycle
 
   override init() {
     self.viewState = .init(state: .loading)
-    self.repository = ListRepository(apiClient: apiClient)
+    self.listRepository = ListRepository(apiClient: apiClient)
+    self.userRepository = UserRepository(apiClient: apiClient)
   }
 
   deinit {
@@ -55,9 +58,18 @@ final class ListingConfiguration: NSObject, Sendable {
     }
 
     do {
-      let data = try await repository.getListOfImages(page: viewState.currentPage, perPage: viewState.itemsFromEndThreshold * 2)
+      let data = try await listRepository.getListOfImages(page: viewState.currentPage, perPage: viewState.itemsFromEndThreshold * 2)
+
+      let users = try await userRepository.getUsers()
 
       await MainActor.run {
+        var data = data
+        data = data.map { imageItem in
+          var item = imageItem
+          item.user = users.randomElement()
+          return item
+        }
+
         viewState.images.append(contentsOf: data)
         viewState.currentPage += 1
         viewState.hasNextPage = !data.isEmpty

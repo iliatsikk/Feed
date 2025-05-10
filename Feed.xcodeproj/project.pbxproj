@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		047DB6F92DCF4E1100A08703 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 047DB6F82DCF4E1100A08703 /* Kingfisher */; };
+		047DB7A92DCF64B400A08703 /* users.json in Resources */ = {isa = PBXBuildFile; fileRef = 047DB7A82DCF622100A08703 /* users.json */; };
 		04DD19482DCF209A007076E4 /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 04DD19472DCF209A007076E4 /* DesignSystem */; };
 		04DD194A2DCF209E007076E4 /* Domain in Frameworks */ = {isa = PBXBuildFile; productRef = 04DD19492DCF209E007076E4 /* Domain */; };
 		04DD194F2DCF20DA007076E4 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 04DD194E2DCF20DA007076E4 /* Alamofire */; };
@@ -27,6 +28,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		047DB7A82DCF622100A08703 /* users.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = users.json; sourceTree = "<group>"; };
 		04DD19052DCE9253007076E4 /* Feed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Feed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04DD191B2DCF1D3C007076E4 /* Domain */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Domain; sourceTree = "<group>"; };
 		04DD191E2DCF1DA7007076E4 /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DesignSystem; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 		04DD18FC2DCE9253007076E4 = {
 			isa = PBXGroup;
 			children = (
+				047DB7A82DCF622100A08703 /* users.json */,
 				04DD19502DCF216B007076E4 /* Networking */,
 				04DD191E2DCF1DA7007076E4 /* DesignSystem */,
 				04DD191B2DCF1D3C007076E4 /* Domain */,
@@ -169,6 +172,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				047DB7A92DCF64B400A08703 /* users.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
