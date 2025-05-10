@@ -55,9 +55,13 @@ struct ListingView: View {
           isPresented: $isShowingFullScreen,
           showNext: config.showNextImage,
           showPrevious: config.showPreviousImage,
+          onLike: {
+            config.onLike(for: item.id)
+          },
           url: item.url,
           profileURL: item.user?.profileURL,
-          profileName: item.user?.name
+          profileName: item.user?.name,
+          isLiked: item.isLiked
         )
         .transition(.opacity)
         .animation(.easeInOut(duration: 0.25), value: isShowingFullScreen)

@@ -14,10 +14,14 @@ struct FullscreenImageView: View {
 
   let showNext: () -> Void
   let showPrevious: () -> Void
+  let onLike: () -> Void
+
   let url: URL?
 
   let profileURL: URL?
   let profileName: String?
+
+  let isLiked: Bool
 
   @GestureState private var dragOffset: CGSize = .zero
 
@@ -83,6 +87,22 @@ struct FullscreenImageView: View {
             }
         }
         .zIndex(1)
+
+        HStack(spacing: .zero) {
+          Spacer()
+
+          Button {
+            onLike()
+          } label: {
+            Image(systemName: isLiked ? "heart.fill" : "heart")
+              .symbolRenderingMode(.hierarchical)
+              .foregroundStyle(isLiked ? .red : .white)
+              .font(.system(size: 34))
+          }
+          .padding(.top, 620.0.scaled)
+          .padding(.trailing, 16.0.scaled)
+        }
+        .zIndex(2)
       }
       .offset(x: .zero, y: dragOffset.height)
       .gesture(

@@ -108,4 +108,13 @@ final class ListingConfiguration: NSObject, Sendable {
 
     viewState.setSelectedItem(image, id: image.id)
   }
+
+  func onLike(for imageId: String) {
+    guard let index = viewState.images.firstIndex(where: { $0.id == imageId }) else {
+      return
+    }
+
+    viewState.selectedItem?.isLiked.toggle()
+    viewState.images[index].isLiked.toggle()
+  }
 }

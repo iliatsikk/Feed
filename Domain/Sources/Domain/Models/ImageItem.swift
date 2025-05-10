@@ -21,6 +21,7 @@ public struct ImageItem: Codable, Identifiable {
 
   public var seen: Bool = false
   public var user: UserItem?
+  public var isLiked: Bool = false
 
   enum CodingKeys: String, CodingKey {
     case id, width, height, author
