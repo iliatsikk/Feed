@@ -15,6 +15,10 @@ public struct ImageItem: Codable {
   public let author: String
   public let downloadURL: String
 
+  public var url: URL? {
+    return URL(string: downloadURL)
+  }
+
   enum CodingKeys: String, CodingKey {
     case id, width, height, author
     case urlString = "url"
