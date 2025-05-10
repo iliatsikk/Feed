@@ -15,6 +15,9 @@ struct ListingItemView: View {
 
   var body: some View {
     KFImage(url)
+      .setProcessor(DownsamplingImageProcessor(size: .init(width: 200.0.scaled, height: 200.0.scaled)))
+      .cacheOriginalImage()
+      .cacheMemoryOnly()
       .placeholder {
         ProgressView()
       }

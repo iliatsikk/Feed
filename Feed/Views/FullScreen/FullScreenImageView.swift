@@ -27,6 +27,9 @@ struct FullscreenImageView: View {
         Color.black.ignoresSafeArea()
 
         KFImage(url)
+          .setProcessor(DownsamplingImageProcessor(size: .init(width: 165.0.scaled, height: 165.0.scaled)))
+          .cacheOriginalImage()
+          .cacheMemoryOnly()
           .resizable()
           .scaledToFill()
           .frame(
