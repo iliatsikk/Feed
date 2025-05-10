@@ -27,16 +27,16 @@ struct FullscreenImageView: View {
   var body: some View {
     GeometryReader { proxy in
       ZStack(alignment: .topLeading) {
-        Color.black.ignoresSafeArea()
+        Color.gray.ignoresSafeArea()
 
         KFImage(url)
           .setProcessor(DownsamplingImageProcessor(size: .init(width: Constants.Screen.width, height: Constants.Screen.height)))
           .cacheOriginalImage()
           .resizable()
-          .scaledToFill()
+          .scaledToFit()
           .frame(
-            maxWidth: proxy.size.width,
-            maxHeight: proxy.size.height
+            maxWidth: .infinity,
+            maxHeight: .infinity
           )
           .clipped()
 
@@ -62,7 +62,7 @@ struct FullscreenImageView: View {
               .foregroundStyle(.white)
           }
         }
-        .padding(.top, 16.0.scaled)
+        .padding(.top, 72.0.scaled)
         .padding(.leading, 16.0.scaled)
 
         HStack(spacing: .zero) {

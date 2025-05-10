@@ -64,5 +64,6 @@ struct ListingView: View {
         .zIndex(1)
       }
     }
+    .background(Color.System.background)
   }
 }
