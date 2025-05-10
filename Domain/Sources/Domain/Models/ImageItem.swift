@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ImageItem: Codable {
+public struct ImageItem: Codable, Identifiable {
   public let id: String
   public let width: Int
   public let height: Int

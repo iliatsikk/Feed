@@ -24,7 +24,10 @@ struct ListingView: View {
     ZStack {
       ScrollView {
         LazyVGrid(columns: columns, spacing: 16.0.scaled) {
-          ForEach(config.viewState.images, id: \.self) { image in
+          ForEach(
+            Array(config.viewState.images.enumerated()),
+            id: \.element.id
+          ) { index, image in
             Button {
               config.viewState.setSelectedURL(image.url, id: image.id)
               withAnimation {
@@ -32,6 +35,10 @@ struct ListingView: View {
               }
             } label: {
               ListingItemView(url: image.url, isSeen: image.seen)
+                .id(image.id)
+                .task { @MainActor in
+                  await config.requestMoreItemsIfNeeded(index: index)
+                }
             }
             .buttonStyle(.plain)
           }
@@ -40,7 +47,7 @@ struct ListingView: View {
         .padding(.vertical, 50.0.scaled)
       }
       .task { @MainActor in
-        await config.getImages()
+        await config.loadMoreImages()
       }
 
       if isShowingFullScreen, let url = config.viewState.selectedURL {

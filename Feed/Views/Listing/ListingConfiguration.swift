@@ -32,12 +32,38 @@ final class ListingConfiguration: NSObject, Sendable {
 
   // MARK: - Inputs
 
-  func getImages() async {
+  func requestMoreItemsIfNeeded(index: Int) async {
+    guard viewState.hasNextPage else {
+      return
+    }
+
+    if thresholdMeet(viewState.images.count + 1, index) {
+      await loadMoreImages()
+    }
+  }
+
+  /// Determines whether we have met the threshold for requesting more items.
+  private func thresholdMeet(_ itemsLoadedCount: Int, _ index: Int) -> Bool {
+    return (itemsLoadedCount - index) <= viewState.itemsFromEndThreshold && !viewState.paginationIsLoading
+  }
+
+  func loadMoreImages() async {
+    viewState.paginationIsLoading = true
+
+    defer {
+      viewState.paginationIsLoading = false
+    }
+
     do {
-      let data = try await repository.getListOfImages(page: 1, perPage: 20)
-      viewState.images.append(contentsOf: data)
+      let data = try await repository.getListOfImages(page: viewState.currentPage, perPage: viewState.itemsFromEndThreshold * 2)
+
+      await MainActor.run {
+        viewState.images.append(contentsOf: data)
+        viewState.currentPage += 1
+        viewState.hasNextPage = !data.isEmpty
+      }
     } catch {
-      print(error)
+      dump(error)
     }
   }
 
@@ -51,7 +77,7 @@ final class ListingConfiguration: NSObject, Sendable {
       return
     }
 
-    var image = viewState.images[index + 1]
+    let image = viewState.images[index + 1]
 
     viewState.setSelectedURL(image.url, id: image.id)
   }
@@ -66,7 +92,7 @@ final class ListingConfiguration: NSObject, Sendable {
       return
     }
 
-    var image = viewState.images[index - 1]
+    let image = viewState.images[index - 1]
 
     viewState.setSelectedURL(image.url, id: image.id)
   }

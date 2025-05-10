@@ -18,6 +18,11 @@ final class ListingViewState: NSObject, Sendable {
     case error
   }
 
+  let itemsFromEndThreshold: Int = 10
+  var currentPage: Int = 1
+  var hasNextPage: Bool = true
+  var paginationIsLoading: Bool = false
+
   var state: ViewState
   var selectedURL: URL?
   var images: [ListingConfiguration.DataItem]
