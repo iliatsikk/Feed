@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Kingfisher
+import Combine
 
 struct FullscreenImageView: View {
   @Binding var isPresented: Bool
@@ -14,6 +15,11 @@ struct FullscreenImageView: View {
   let showNext: () -> Void
   let showPrevious: () -> Void
   let url: URL
+
+  @GestureState private var dragOffset: CGSize = .zero
+
+  @State private var initialY: CGFloat = .zero
+  @State private var isInitial: Bool = true
 
   var body: some View {
     GeometryReader { proxy in
@@ -27,6 +33,7 @@ struct FullscreenImageView: View {
             maxWidth: proxy.size.width,
             maxHeight: proxy.size.height
           )
+          .clipped()
 
         Button {
           isPresented = false
@@ -35,22 +42,41 @@ struct FullscreenImageView: View {
             .font(.system(size: 32, weight: .bold))
             .foregroundColor(.white)
             .padding()
+
         }
       }
-
-      HStack(spacing: .zero) {
-        Color.clear
-          .contentShape(.rect)
-          .onTapGesture {
-            showPrevious()
+      .offset(x: .zero, y: dragOffset.height)
+      .gesture(
+        DragGesture()
+          .updating($dragOffset) { value, state, _ in
+            if isInitial {
+              initialY = value.location.y
+              isInitial = false
+            }
           }
+          .onEnded { value in
+            if initialY - value.location.y < -30.0.scaled {
+              withAnimation(.linear(duration: 0.25)) {
+                isPresented = false
+              }
+            } else {
+              initialY = .zero
+              isInitial = true
+            }
 
-        Color.clear
-          .contentShape(.rect)
-          .onTapGesture {
-            showNext()
+//            if value.translation.height < 400.0.scaled {
+//              withAnimation(.linear(duration: 0.25)) {
+//                isPresented = false
+//              }
+//            } else if value.translation.width < -50 {
+//              withAnimation(.easeInOut) {
+//                showNext() }
+//            } else if value.translation.width > 50 {
+//              withAnimation(.easeInOut) { showPrevious() }
+//            }
           }
-      }
+      )
+      .transition(.move(edge: .bottom))
     }
   }
 }
